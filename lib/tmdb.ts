@@ -3,23 +3,60 @@ import { Movie, TVShow } from './types/tmdb';
 import { getCertificationQuery } from './utils/certifications';
 import { getRandomPage } from './utils/pagination';
 
-// Cache for API responses with shorter duration for real-time data
-const cache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_DURATION = 2 * 60 * 1000; // 2 minutes for fresher content
+// Cache with LRU implementation
+class LRUCache {
+  private capacity: number;
+  private cache: Map<string, { data: any; timestamp: number }>;
+
+  constructor(capacity: number) {
+    this.capacity = capacity;
+    this.cache = new Map();
+  }
+
+  get(key: string): any | undefined {
+    const item = this.cache.get(key);
+    if (item && Date.now() - item.timestamp < 2 * 60 * 1000) { // 2 minutes TTL
+      this.cache.delete(key);
+      this.cache.set(key, item); // Move to end (most recently used)
+      return item.data;
+    }
+    if (item) {
+      this.cache.delete(key); // Remove expired item
+    }
+    return undefined;
+  }
+
+  set(key: string, value: any): void {
+    if (this.cache.size >= this.capacity) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+    this.cache.set(key, { data: value, timestamp: Date.now() });
+  }
+}
+
+const cache = new LRUCache(100); // Store up to 100 items
 
 async function fetchWithCache(url: string, options: RequestInit) {
   const cacheKey = url;
   const cached = cache.get(cacheKey);
   
-  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-    return cached.data;
+  if (cached) {
+    return cached;
   }
 
-  const response = await fetch(url, options);
-  const data = await response.json();
-  
-  cache.set(cacheKey, { data, timestamp: Date.now() });
-  return data;
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    cache.set(cacheKey, data);
+    return data;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error;
+  }
 }
 
 export const fetchMovies = async (params: {
@@ -135,13 +172,19 @@ export const fetchTVShowDetails = async (id: number): Promise<TVShow> => {
 };
 
 export const fetchTrending = async () => {
-  const url = `${BASE_URL}/trending/movie/day?language=en-US`; // Changed to daily trending for more recent content
+  const url = `${BASE_URL}/trending/movie/day?language=en-US`;
   const data = await fetchWithCache(url, { headers });
   return data.results;
 };
 
 export const fetchPopular = async () => {
-  const url = `${BASE_URL}/movie/now_playing?language=en-US`; // Changed to now playing for latest releases
+  const url = `${BASE_URL}/movie/now_playing?language=en-US`;
+  const data = await fetchWithCache(url, { headers });
+  return data.results;
+};
+
+export const fetchNowPlaying = async () => {
+  const url = `${BASE_URL}/movie/now_playing?language=en-US&region=US`;
   const data = await fetchWithCache(url, { headers });
   return data.results;
 };

@@ -21,6 +21,7 @@ export default function Header() {
           <nav className="hidden md:flex items-center space-x-4">
             {[
               { path: '/', label: 'Discover' },
+              { path: '/in-theaters', label: 'In Theaters' },
               { path: '/trending', label: 'Trending' },
               { path: '/popular', label: 'Popular' },
               { path: '/top-rated', label: 'Top Rated' },
