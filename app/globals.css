@@ -150,10 +150,10 @@
 
 /* Glass effect */
 .glass-effect {
-  @apply bg-background/60 backdrop-blur-md border border-border/50;
+  @apply bg-background/40 backdrop-blur-sm border border-border/50;
 }
 
 /* Content overlay for better readability */
 .content-overlay {
-  @apply bg-background/60 backdrop-blur-md;
+  @apply bg-background/40 backdrop-blur-sm;
 }
