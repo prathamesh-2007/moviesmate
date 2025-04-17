@@ -51,16 +51,16 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://image.tmdb.org" />
         <link rel="preconnect" href="https://image.tmdb.org" />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} min-h-screen bg-fixed`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <div className="min-h-screen flex flex-col">
+          <div className="flex flex-col min-h-screen">
             <Header />
-            <main className="flex-grow">{children}</main>
+            <main className="flex-grow content-overlay">{children}</main>
             <Footer />
           </div>
           <Toaster />

@@ -78,6 +78,11 @@
   }
   body {
     @apply bg-background text-foreground;
+    background-image: url('https://i.postimg.cc/pr2vf4c5/1512217.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
   }
 }
 
@@ -145,5 +150,10 @@
 
 /* Glass effect */
 .glass-effect {
-  @apply bg-background/80 backdrop-blur-sm border border-border/50;
+  @apply bg-background/60 backdrop-blur-md border border-border/50;
+}
+
+/* Content overlay for better readability */
+.content-overlay {
+  @apply bg-background/60 backdrop-blur-md;
 }
