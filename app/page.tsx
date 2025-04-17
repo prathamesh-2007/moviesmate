@@ -19,10 +19,10 @@ export default function Home() {
   return (
     <div className="container mx-auto px-4 py-8 space-y-8">
       <div className="text-center space-y-4 animate-fade-in">
-        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
+        <h1 className="text-4xl font-bold text-primary">
           Find Your Next Watch
         </h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-white max-w-2xl mx-auto">
           Get personalized movie and TV show recommendations based on your preferences.
           Discover hidden gems and popular hits tailored just for you.
         </p>
@@ -37,7 +37,7 @@ export default function Home() {
           {movies.length > 0 && (
             <section>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold">Movie Recommendations</h2>
+                <h2 className="text-2xl font-bold text-primary">Movie Recommendations</h2>
                 <Button 
                   onClick={refresh} 
                   variant="outline" 
@@ -74,7 +74,7 @@ export default function Home() {
           {tvShows.length > 0 && (
             <section>
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold">TV Show Recommendations</h2>
+                <h2 className="text-2xl font-bold text-primary">TV Show Recommendations</h2>
                 <Button 
                   onClick={refresh} 
                   variant="outline" 

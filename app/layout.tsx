@@ -19,10 +19,7 @@ export const metadata: Metadata = {
   keywords: ['movies', 'tv shows', 'recommendations', 'entertainment', 'streaming', 'watchlist'],
   authors: [{ name: 'MovieMate Team' }],
   viewport: 'width=device-width, initial-scale=1, maximum-scale=1',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  themeColor: [{ color: 'black' }],
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -44,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <link rel="dns-prefetch" href="https://api.themoviedb.org" />
         <link rel="preconnect" href="https://api.themoviedb.org" />
@@ -54,8 +51,9 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-screen bg-fixed`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"
+          enableSystem={false}
+          forcedTheme="dark"
           disableTransitionOnChange
         >
           <div className="flex flex-col min-h-screen">

@@ -1,7 +1,6 @@
 'use client';
 
 import { Film } from 'lucide-react';
-import { ModeToggle } from './mode-toggle';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { usePathname } from 'next/navigation';
@@ -38,10 +37,6 @@ export default function Header() {
               </Link>
             ))}
           </nav>
-
-          <div className="flex items-center space-x-4 animate-fade-in">
-            <ModeToggle />
-          </div>
         </div>
       </div>
     </header>
